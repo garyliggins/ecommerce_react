@@ -1,7 +1,9 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import connectDB from './config/mongoose.config.js'
-import products from './data/products.js'
+
+
+import productRoutes from './routes/productRoutes.js'
 
 dotenv.config()
 
@@ -14,16 +16,8 @@ app.get("/", (req, res) => {
     res.send("API is running...")
 })
 
-//this route will give you a json array of all products showing on localhost:5000
-app.get("/api/products", (req, res) => {
-    res.json(products)
-})
 
-// this route will get each individual product
-app.get("/api/products/:id", (req, res) => {
-    const product = products.find(p => p._id === req.params.id)
-    res.json(product)
-})
+app.use('/api/products', productRoutes)
 
 //when you save the port in the .env file this is how you bring it back in the file
 const PORT = process.env.PORT || 5000
